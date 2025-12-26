@@ -2,6 +2,7 @@ import typer
 from rich.console import Console
 from rich.prompt import Prompt, Confirm
 from rich.table import Table
+from archgen.generator import generate_project
 
 # Initialisation
 app = typer.Typer()
@@ -88,19 +89,22 @@ def create():
     console.print("")  # Saut de ligne
 
     # Confirm.ask renvoie True (Oui) ou False (Non)
-    if Confirm.ask("Ces informations sont-elles correctes ?"):
-        console.print(
-            f"\n[bold green]🚀 C'est parti ! Génération de {project_name} en cours...[/bold green]"
-        )
+    # ... (le début du fichier reste identique)
 
-        # C'est ICI qu'on appellera la fonction de l'Étape 3 plus tard
-        # generate_project(project_name, project_type, language, architecture)
+    if Confirm.ask("Ces informations sont-elles correctes ?"):
+        console.print(f"\n[bold green]🚀 C'est parti ! Génération de {project_name} en cours...[/bold green]")
+
+        # 👇 APPEL DU GÉNÉRATEUR 👇
+        success = generate_project(project_name, project_type, language, architecture)
+
+        if success:
+            console.print(f"\n[bold green]✅ Projet {project_name} créé avec succès ![/bold green]")
+            console.print(f"👉 cd {project_name}")
+        else:
+            console.print("\n[bold red]💥 La génération a échoué.[/bold red]")
 
     else:
-        console.print(
-            "\n[red]❌ Annulation. Relance la commande pour recommencer.[/red]"
-        )
-
+        console.print("\n[red]❌ Annulation.[/red]")
 
 if __name__ == "__main__":
     app()

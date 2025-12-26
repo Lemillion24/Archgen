@@ -1,0 +1,26 @@
+# Structure pour Python Clean Architecture
+root:
+  # Dossier src principal
+  src:
+    # Les couches de la Clean Arch
+    domain:
+      entities: null       # Dossier vide
+      interfaces: null     # Dossier vide
+    
+    use_cases: null
+    
+    infrastructure:
+      db: null
+      web: null
+      
+    # Le point d'entrée, lié à un template
+    main.py: "main.py.jinja"
+
+  # Dossier de tests
+  tests:
+    unit: null
+    integration: null
+
+  # Fichiers à la racine
+  README.md: "README.md.jinja"
+  requirements.txt: "requirements.txt.jinja"
