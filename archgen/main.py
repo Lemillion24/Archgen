@@ -2,7 +2,7 @@ import typer
 from rich.console import Console
 from rich.prompt import Prompt, Confirm
 from rich.table import Table
-from archgen.generator import generate_project
+from generator import generate_project
 
 # Initialisation
 app = typer.Typer()
@@ -25,6 +25,15 @@ ARCHITECTURES = [
     "soa",
     "serverless",
 ]
+# Matrice de compatibilité : Quelles architectures pour quel type de projet ?
+COMPATIBILITY = {
+    "web": ["mvc", "clean", "n_tiers"],
+    "api": ["clean", "hexagonal", "microservices"],
+    "cli": ["monolith", "clean"],
+    "mobile": ["mvvm", "clean"],
+    "game": ["event_driven", "monolith"],
+    "platform": ["microservices", "soa"]
+}
 
 
 @app.callback()
@@ -67,12 +76,14 @@ def create():
         choices=LANGUAGES,
         default="python",
     )
+    
+    valid_architectures = COMPATIBILITY.get(project_type, ARCHITECTURES)
 
     # 4. Architecture
     architecture = Prompt.ask(
         "Quelle [bold green]architecture[/bold green] souhaites-tu implémenter ?",
-        choices=ARCHITECTURES,
-        default="clean",
+        choices=valid_architectures,
+        default=valid_architectures[0],
     )
 
     # --- 3. RÉSUMÉ ET CONFIRMATION ---

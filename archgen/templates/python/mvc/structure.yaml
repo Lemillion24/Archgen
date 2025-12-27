@@ -1,0 +1,19 @@
+# Structure pour Python MVC
+root:
+  app:
+    controllers:
+      # On pointe vers un template pour le contrôleur de base
+      base_controller.py: "controller.py.jinja"
+    
+    models:
+      user_model.py: "model.py.jinja"
+    
+    views:
+      index.html: "view.html.jinja"
+      
+    main.py: "main.py.jinja"
+
+  tests: null
+  
+  README.md: "README.md.jinja"
+  requirements.txt: "requirements.txt.jinja"

@@ -1,0 +1,19 @@
+root:
+  app:
+    controllers:
+      BaseController.js : "BaseController.js.jinja"
+
+    model:
+      UserModel.js: "UserModel.js.jinja"
+
+    views:
+      index.js: "index.js.jinja"
+
+    main.js: "main.js.jinja"
+    .htaccess: "htaccess.jinja"
+  
+  tests: null
+  
+  README.md : "README.md.jinja"
+  package.json: "package.json.jinja"
+  .gitignore: "gitignore.jinja"
