@@ -1,0 +1,19 @@
+class UserModel {
+    constructor() {
+        // Mock data en mémoire
+        this.users = [
+            { id: 1, name: "Alice", email: "alice@example.com" },
+            { id: 2, name: "Bob", email: "bob@example.com" }
+        ];
+    }
+
+    async findAll() {
+        return this.users;
+    }
+
+    async findById(id) {
+        return this.users.find(u => u.id == id);
+    }
+}
+
+module.exports = new UserModel();

@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=6.1.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "archgen"
+version = "0.1.0"
+description = "Un générateur de scaffolding multi-architectures"
+authors = [{name = "Nossyrrah", email = "henrygrave21@gmail.com"}]
+requires-python = ">=3.9"
+dependencies = [
+    "typer[all]",
+    "rich",
+    "jinja2",
+    "pyyaml"
+]
+
+# 👇 C'est la ligne magique qui crée la commande
+[project.scripts]
+archgen = "archgen.main:app"
+
+# 👇 Très important : inclure les fichiers non-python (yaml, jinja)
+[tool.setuptools.package-data]
+archgen = ["templates/**/*"]

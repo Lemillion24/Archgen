@@ -2,7 +2,7 @@ import yaml
 from pathlib import Path
 from jinja2 import Environment, FileSystemLoader
 
-def generate_project(project_name: str, project_type: str, language: str, architecture: str):
+def generate_project(project_name: str, project_type: str, language: str, framework: str , architecture: str):
     """
     Fonction principale qui orchestre la création du projet.
     """
@@ -48,7 +48,7 @@ def generate_project(project_name: str, project_type: str, language: str, archit
     # 6. Lancement de la récursion
     # On regarde la clé "root" du YAML et on lance la création
     _create_recursive(root_path, structure["root"], jinja_env, context)
-    
+    success = generate_project(project_name, pri)
     return True
 
 def _create_recursive(current_path: Path, structure_content, jinja_env, context):

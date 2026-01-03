@@ -2,17 +2,32 @@ import typer
 from rich.console import Console
 from rich.prompt import Prompt, Confirm
 from rich.table import Table
-from generator import generate_project
+from pyfiglet import Figlet
+from archgen.generator import generate_project
 
 # Initialisation
 app = typer.Typer()
 console = Console()
 
 # --- 1. CONFIGURATION (Les choix possibles) ---
-# On utilise des clés simples (en minuscule, sans espace) pour le code
+#  utilise des clés simples  pour le code
 PROJECT_TYPES = ["web", "api", "cli", "mobile", "game", "platform"]
-LANGUAGES = ["python", "go", "javascript", "typescript", "java", "csharp"]
-# Liste des 10 architectures (exemple, tu pourras ajuster)
+# ...
+LANGUAGES = ["python", "javascript", "php", "java", "csharp", "go"]
+
+# Associe chaque langage à ses frameworks populaires
+# "none" signifie "Vanilla" ou "Pur" (sans framework)
+FRAMEWORKS = {
+    "python": ["django", "flask", "fastapi", "none"],
+    "javascript": ["react", "vue", "angular", "express", "none"],
+    "typescript": ["react", "angular", "nest", "none"],
+    "php": ["laravel", "symfony", "none"],
+    "java": ["spring", "jakarta", "none"],
+    "csharp": ["dotnet-core", "none"],
+    "go": ["gin", "fiber", "none"]
+}
+
+# ... (ARCHITECTURES reste pareil)# Liste des 10 architectures (exemple, tu pourras ajuster)
 ARCHITECTURES = [
     "mvc",
     "clean",
@@ -36,6 +51,15 @@ COMPATIBILITY = {
 }
 
 
+def print_logo():
+    """affichier
+        le logo en un truc sympa
+    """
+    # genere  le texte ASCII
+    f =  Figlet(font='slant')
+    ascii_art =f.renderText('Archgen')
+    console.print(ascii_art, style='bold magenta')
+
 @app.callback()
 def main():
     """
@@ -48,9 +72,12 @@ def main():
 def create():
     """
     Lance l'assistant pour configurer un nouveau projet.
+    
     """
+    print_logo()
+    
     console.print(
-        "[bold blue]🛠  Bienvenue dans Archigen[/bold blue] - Créateur d'Architectures\n"
+        "[bold blue]🛠  Bienvenue dans Archigen 🛠 [/bold blue] - Créateur d'Architectures\n"
     )
 
     # --- 2. QUESTIONNAIRE INTERACTIF ---
@@ -78,8 +105,14 @@ def create():
     )
     
     valid_architectures = COMPATIBILITY.get(project_type, ARCHITECTURES)
-
-    # 4. Architecture
+    valid_frameworks = FRAMEWORKS.get(language, ["none"])
+    # 4. Framework
+    framework = Prompt.ask(
+        f"Quel [blod green]framework[/blod green] utiliser ?",
+        choices=valid_frameworks,
+        default="none"
+    )
+    # 5. Architecture
     architecture = Prompt.ask(
         "Quelle [bold green]architecture[/bold green] souhaites-tu implémenter ?",
         choices=valid_architectures,
@@ -94,6 +127,7 @@ def create():
     table.add_row("Nom du projet", f"[bold white]{project_name}[/bold white]")
     table.add_row("Type", f"[cyan]{project_type}[/cyan]")
     table.add_row("Langage", f"[magenta]{language}[/magenta]")
+    table.add_row("Framework", f"[green]{framework}[/green]")
     table.add_row("Architecture", f"[green]{architecture}[/green]")
     console.print(table)
 
