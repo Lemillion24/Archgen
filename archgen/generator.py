@@ -9,9 +9,12 @@ def generate_project(project_name: str, project_type: str, language: str, framew
     # 1. Définir les chemins
     # Le dossier où se trouve ce script (archigen/)
     base_dir = Path(__file__).parent
+
+    # si le template est none
+    framework_dir = "vanilla" if framework == "none" else framework
     
     # Le chemin vers les templates (archigen/templates/python/clean/)
-    template_dir = base_dir / "templates" / language / architecture
+    template_dir = base_dir / "templates" / language / framework_dir / architecture
     
     # Le fichier de structure (archigen/templates/python/clean/structure.yaml)
     structure_file = template_dir / "structure.yaml"
@@ -33,6 +36,7 @@ def generate_project(project_name: str, project_type: str, language: str, framew
         "project_name": project_name,
         "project_type": project_type,
         "language": language,
+        "framework": framework,
         "architecture": architecture
     }
 
@@ -48,7 +52,7 @@ def generate_project(project_name: str, project_type: str, language: str, framew
     # 6. Lancement de la récursion
     # On regarde la clé "root" du YAML et on lance la création
     _create_recursive(root_path, structure["root"], jinja_env, context)
-    success = generate_project(project_name, pri)
+    #success = generate_project(project_name, project_type, language, framework, architecture)
     return True
 
 def _create_recursive(current_path: Path, structure_content, jinja_env, context):

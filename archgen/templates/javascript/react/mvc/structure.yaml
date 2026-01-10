@@ -1,0 +1,11 @@
+root:
+  src:
+    controllers: null
+    models: null
+    views:  
+      index.html : "index.html.jinja"
+    index.js: "index.js.jinja"
+
+  package.json: "package.json.jinja"
+  .gitignore : "gitignore.jinja"
+  README.md : "README.md.jinja"

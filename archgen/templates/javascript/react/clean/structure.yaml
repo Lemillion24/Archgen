@@ -1,0 +1,19 @@
+root:
+  public:
+    index.html: "index.html.jinja"
+  scr:
+
+    domain:
+      entities: null
+      usecases: null
+    data:
+      repossitories: null
+      sources: null
+    presentations:
+      components: null
+      pages: null
+      hooks: null
+    App.js: "App.js.jinja"
+    index.js: "index.js.jinja"
+
+    

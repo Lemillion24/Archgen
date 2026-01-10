@@ -1,0 +1,27 @@
+root:
+  app:
+
+    src:
+
+      controllers:
+        Base.controller.js: "Base.controller.js.jinja"
+        Auth.controller.js : "Auth.controller.js.jinja"
+
+
+      middleware:
+        Auth.middleware.js: "Auth.middleware.js.jinja"
+
+      models:
+        User.model.js : "User.model.js.jinja"
+
+      views:
+        index.html: "index.html.jinja"
+
+      routes: null
+    
+    vendor: null
+    composer: null
+
+  .gitignore: "gitignore.jinja"
+  README.md : "README.md.jinja"
+

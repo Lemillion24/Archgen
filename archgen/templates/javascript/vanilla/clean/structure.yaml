@@ -1,0 +1,14 @@
+# Structure pour Node.js (Clean Architecture)
+root:
+  src:
+    controllers: null
+    use-cases: null
+    entities: null
+    data-access: null
+    index.js: "index.js.jinja"
+
+  tests: null
+  
+  package.json: "package.json.jinja"
+  README.md: "README.md.jinja"
+  .gitignore: "gitignore.jinja"
