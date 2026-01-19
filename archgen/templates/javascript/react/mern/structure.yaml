@@ -1,0 +1,67 @@
+root:
+  
+  frontend:
+    public : null
+
+    src:
+      api:
+        axios.js: "frontend/axios.js.jinja"
+      assets:
+        images: null
+
+      components:
+        common:
+          navbar.jsx: "frontend/navbar.jsx.jinja"
+        ui:
+          button.jsx: "frontend/button.jsx.jinja"
+      pages:
+        Home.jsx: "frontend/Homm.jsx.jinja"
+        Login.jsx: "frontend/Login.jsx.jinja"
+        Register.jsx: "frontend/Register,jsx.jinja"
+      hooks:
+        useAuth.jsx: "frontend/userAut.jsx.jinja"
+      context:
+        AuthContext.jsx: "frontend/AuthContext.jsx.jinja"
+      services:
+        auth.service.js: "frontend/auth.service.js.jinja"
+      routes:
+        AppRoute.jsx: "frontend/AppRoute.jsx.jinja"
+      styles:
+        main.css: "frontend/main.css.jinja"
+      App.jsx: "frontend/App.jsx.jinja"
+      main.jsx: "frontend/main.jsx.jinja"
+    .env: null
+    package.json:
+      
+
+
+  backend:
+    src:
+      config:
+        db.js: "backend/db.js.jinja"
+        env.js: "backend/env.js.jinja"
+      controllers:
+        user.controller.js: "backend/user.controller.js.jinja"
+      models:
+        user.model.js: "backend/user.model.js.jinja"
+      routes:
+        user.route.js: "backend/user.route.js.jinja"
+      middlewares:
+        auth.middleware.js: "backend/auth.middleware.js.jinja"
+        error.middleware.js: "backend/error.middleware.js.jinja"
+      services:
+        user.service.js: "backend/user.service.js.jinja"
+
+      utils:
+        generateToken.js: "backend/generateToken.js.jinja"
+      
+      app.js: "backend/app.js.jinja"
+      server.js: "backend/server.js.jinja"
+    .env: null
+    package.json: "package.json.jinja"
+    nodemon.json: "backend/nodemon.json.jinja"
+
+
+
+  README.md: "README.md.jinja"
+  .gitignore: "gitignore.jinja"

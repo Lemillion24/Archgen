@@ -40,10 +40,12 @@ ARCHITECTURES = [
     "mvvm",
     "soa",
     "serverless",
+    "mern",
+    "pern",
 ]
 # Matrice de compatibilité : Quelles architectures pour quel type de projet ?
 COMPATIBILITY = {
-    "web": ["mvc", "clean", "n_tiers"],
+    "web": ["mvc", "clean", "n_tiers", "mern", "pern"],
     "api": ["clean", "hexagonal", "microservices"],
     "cli": ["monolith", "clean"],
     "mobile": ["mvvm", "clean"],
@@ -120,7 +122,9 @@ def create(
     
     # 4. Framework
     if framework:
-        if framework not in FRAMEWORKS.get(language, ['none']):
+        if framework == "react":
+            language = "javascript"
+        elif framework not in FRAMEWORKS.get(language, ['none']):
            console.print(f"[yellow]⚠️ Attention: {framework} n'est pas standard pour {language}, mais on continue.[/yellow]")
         console.print(f"⚡ Framework : [bold green]{framework}[/bold green]")
     else:
