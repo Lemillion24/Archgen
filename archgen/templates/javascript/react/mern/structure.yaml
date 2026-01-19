@@ -17,9 +17,9 @@ root:
       pages:
         Home.jsx: "frontend/Homm.jsx.jinja"
         Login.jsx: "frontend/Login.jsx.jinja"
-        Register.jsx: "frontend/Register,jsx.jinja"
+        Register.jsx: "frontend/Register.jsx.jinja"
       hooks:
-        useAuth.jsx: "frontend/userAut.jsx.jinja"
+        useAuth.jsx: "frontend/useAuth.jsx.jinja"
       context:
         AuthContext.jsx: "frontend/AuthContext.jsx.jinja"
       services:
@@ -31,8 +31,7 @@ root:
       App.jsx: "frontend/App.jsx.jinja"
       main.jsx: "frontend/main.jsx.jinja"
     .env: null
-    package.json:
-      
+    package.json: "frontend/package.json.jinja"
 
 
   backend:
@@ -58,7 +57,7 @@ root:
       app.js: "backend/app.js.jinja"
       server.js: "backend/server.js.jinja"
     .env: null
-    package.json: "package.json.jinja"
+    package.json: "backend/package.json.jinja"
     nodemon.json: "backend/nodemon.json.jinja"
 
 

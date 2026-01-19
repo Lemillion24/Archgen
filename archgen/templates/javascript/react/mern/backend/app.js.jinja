@@ -1,0 +1,29 @@
+import express from 'express';
+import cors from 'cors';
+import userRoutes from './routes/user.route.js';
+import errorMiddleware from './middlewares/error.middleware.js';
+
+const app = express();
+
+// Middlewares
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Health check
+app.get('/health', (req, res) => {
+  res.json({ status: 'OK', message: 'Server is running' });
+});
+
+// API Routes
+app.use('/api/users', userRoutes);
+
+// 404 Handler
+app.use((req, res) => {
+  res.status(404).json({ message: 'Route not found' });
+});
+
+// Error handling middleware
+app.use(errorMiddleware);
+
+export default app;

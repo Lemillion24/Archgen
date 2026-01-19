@@ -1,0 +1,21 @@
+import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext.jsx';
+import Navbar from './components/common/navbar.jsx';
+import AppRoute from './routes/AppRoute.jsx';
+import './styles/main.css';
+
+function App() {
+  return (
+    <BrowserRouter>
+      <AuthProvider>
+        <Navbar />
+        <main className="main-content">
+          <AppRoute />
+        </main>
+      </AuthProvider>
+    </BrowserRouter>
+  );
+}
+
+export default App;

@@ -1,0 +1,29 @@
+import React from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import useAuth from '../hooks/useAuth.jsx';
+import Home from '../pages/Home.jsx';
+import Login from '../pages/Login.jsx';
+import Register from '../pages/Register.jsx';
+
+const ProtectedRoute = ({ element }) => {
+  const { isAuthenticated, loading } = useAuth();
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  return isAuthenticated ? element : <Navigate to="/login" />;
+};
+
+export const AppRoute = () => {
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      {/* Add more protected routes here */}
+    </Routes>
+  );
+};
+
+export default AppRoute;

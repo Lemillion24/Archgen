@@ -1,5 +1,4 @@
 import typer
-from typing import Optional
 from rich.console import Console
 from rich.prompt import Prompt, Confirm
 from rich.table import Table
@@ -124,12 +123,13 @@ def create(
     if framework:
         if framework == "react":
             language = "javascript"
+            valid_frameworks = FRAMEWORKS.get(language, ["none"])
         elif framework not in FRAMEWORKS.get(language, ['none']):
            console.print(f"[yellow]⚠️ Attention: {framework} n'est pas standard pour {language}, mais on continue.[/yellow]")
         console.print(f"⚡ Framework : [bold green]{framework}[/bold green]")
     else:
         framework = Prompt.ask(
-            f"Quel [blod green]framework[/blod green] utiliser ?",
+            f"Quel [bold green]framework[/bold green] utiliser ?",
             choices=valid_frameworks,
             default="none"
             )
@@ -155,8 +155,6 @@ def create(
     console.print("")  # Saut de ligne
 
     # Confirm.ask renvoie True (Oui) ou False (Non)
-    # ... (le début du fichier reste identique)
-
     if Confirm.ask("Ces informations sont-elles correctes ?"):
         console.print(f"\n[bold green]🚀 C'est parti ! Génération de {project_name} en cours...[/bold green]")
 
@@ -176,63 +174,11 @@ def create(
 @app.command()
 def create_react():
     """
-    lance un projet react sans les dependance pour l'instant
+    Raccourci pour créer rapidement un projet React.
+    Utilise la fonction 'create' avec framework=react pré-sélectionné.
     """
-    print_logo()
-    
-    #valid_frameworks = FRAMEWORKS.get(language, ["none"])
-    
-    project_name = Prompt.ask(
-        f"Quel est le [blod green] nom du  projet react [/blod green]?"
-    )
-    project_type = Prompt.ask(
-        "Quel [bold green]type de projet[/bold green] veux-tu créer ?",
-        choices=PROJECT_TYPES,
-        default="api",  # Valeur par défaut si on appuie sur Entrée
-    )
-    valid_architectures = COMPATIBILITY.get(project_type, ARCHITECTURES)
-    language = "javascript"
-    framework = "react"
-    architecture = Prompt.ask(
-        f"Quelle [bold green]architecture[/bold green] souhaites-tu implémenter ?",
-        choices=valid_architectures,
-        default=valid_architectures[0],
-    )
+    create(project_name=None, framework="react")
 
-    console.print("\n[bold yellow]📋 Vérification de la configuration :[/bold yellow]")
-
-    # On crée un joli tableau pour récapituler (ça fait très pro)
-    table = Table(show_header=False, box=None)
-    table.add_row("Nom du projet", f"[bold white]{project_name}[/bold white]")
-    table.add_row("Type", f"[cyan]{project_type}[/cyan]")
-    table.add_row("Langage", f"[magenta]{language}[/magenta]")
-    table.add_row("Framework", f"[yellow]{framework}[/yellow]")
-    table.add_row("Architecture", f"[green]{architecture}[/green]")
-    console.print(table)
-
-    console.print("")  
-    
-    #success = generate_project(project_name,project_type,language, framework, architecture)
-    if Confirm.ask("Ces informations sont-elles correctes ?"):
-        console.print(f"\n[bold green]🚀 C'est parti ! Génération de {project_name} en cours...[/bold green]")
-
-        # 👇 APPEL DU GÉNÉRATEUR 👇
-        success = generate_project(project_name, project_type, language, framework, architecture)
-
-        if success:
-            console.print(f"\n[bold green]✅ Projet {project_name} créé avec succès ![/bold green]")
-            console.print(f"👉 cd {project_name}")
-        else:
-            console.print("\n[bold red]💥 La génération a échoué.[/bold red]")
-
-    else:
-        console.print("\n[red]❌ Annulation.[/red]")
-
-
-"""@app.Option()
-def op():
-    print_logo()
-    """
 
 if __name__ == "__main__":
     app()
