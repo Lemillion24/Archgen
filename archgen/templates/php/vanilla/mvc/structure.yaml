@@ -1,0 +1,17 @@
+# Structure pour PHP MVC
+root:
+  public:
+    index.php: "public/index.php.jinja"
+
+  app:
+    Controllers:
+      BaseController.php: "app/Controllers/BaseController.php.jinja"
+    Models:
+      User.php: "app/Models/User.php.jinja"
+    Views:
+      index.html: "app/Views/index.html.jinja"
+
+  tests: null
+  composer.json: "composer.json.jinja"
+  README.md: "README.md.jinja"
+  .gitignore: "gitignore.jinja"

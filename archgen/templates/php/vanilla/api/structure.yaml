@@ -1,0 +1,16 @@
+# Structure pour PHP API
+root:
+  public:
+    index.php: "public/index.php.jinja"
+
+  app:
+    Controllers:
+      ApiController.php: "app/Controllers/ApiController.php.jinja"
+
+  routes:
+    api.php: "routes/api.php.jinja"
+
+  tests: null
+  composer.json: "composer.json.jinja"
+  README.md: "README.md.jinja"
+  .gitignore: "gitignore.jinja"

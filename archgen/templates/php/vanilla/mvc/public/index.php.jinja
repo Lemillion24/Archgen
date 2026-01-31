@@ -1,0 +1,12 @@
+<?php
+/**
+ * Projet : {{ project_name }}
+ * Langage : {{ language }}
+ * Architecture : MVC
+ */
+require __DIR__ . '/../vendor/autoload.php';
+
+use App\Controllers\BaseController;
+
+$controller = new BaseController();
+$controller->index();

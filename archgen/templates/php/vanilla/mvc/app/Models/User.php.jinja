@@ -1,0 +1,18 @@
+<?php
+/**
+ * Projet : {{ project_name }}
+ * Langage : {{ language }}
+ * Fichier : User model
+ */
+
+namespace App\Models;
+
+class User
+{
+    public string $name;
+
+    public function __construct(string $name = 'Anonymous')
+    {
+        $this->name = $name;
+    }
+}

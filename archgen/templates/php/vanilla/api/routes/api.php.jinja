@@ -1,0 +1,7 @@
+<?php
+// Routes minimalistes pour l'API
+
+require __DIR__ . '/../app/Controllers/ApiController.php';
+
+$controller = new App\Controllers\ApiController();
+$controller->ping();

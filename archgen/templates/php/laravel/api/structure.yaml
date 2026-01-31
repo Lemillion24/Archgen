@@ -1,0 +1,13 @@
+# Structure pour Laravel API
+root:
+  public:
+    index.php: "public/index.php.jinja"
+  app:
+    Http:
+      Controllers:
+        ApiController.php: "app/Http/Controllers/ApiController.php.jinja"
+  routes:
+    api.php: "routes/api.php.jinja"
+  composer.json: "composer.json.jinja"
+  README.md: "README.md.jinja"
+  .gitignore: "gitignore.jinja"
