@@ -4,6 +4,7 @@ from rich.prompt import Prompt, Confirm
 from rich.table import Table
 from pyfiglet import Figlet
 from archgen.generator import generate_project
+from archgen.secure import encrypt_directory
 
 # Initialisation
 app = typer.Typer()
@@ -78,6 +79,8 @@ def create(
     
     # 2. OPTION : Le framework (ex: --framework react ou -f react)
     framework: str = typer.Option(None, "--framework", "-f", help="Framework (react, django, laravel...)"),
+    # 3.OPTION : verouillage (ex: --secure ou -s)
+    secure: bool = typer.Option(False, "--secure", "-s", help="Chiffrer le projet après génération avec un mot de passe")
 ):
     """
     Lance l'assistant pour configurer un nouveau projet.
