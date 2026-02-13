@@ -1,3 +1,4 @@
+from pathlib import Path
 import typer
 from rich.console import Console
 from rich.prompt import Prompt, Confirm
@@ -165,8 +166,26 @@ def create(
         success = generate_project(project_name, project_type, language, framework, architecture)
 
         if success:
-            console.print(f"\n[bold green]✅ Projet {project_name} créé avec succès ![/bold green]")
-            console.print(f"👉 cd {project_name}")
+            root_path = Path.cwd() / project_name
+
+            # secure option
+            if secure:
+                password = Prompt.ask( "entre un mot de passe pour chiffre le projet(ne pas le perdre ou le divulguer!)", password=True,)
+                if not password:
+                    console.print("[red] Mots depasse requit pour --secure[/red].")
+                    return
+                console.print("[yellow] [-]chiffrement en cours ...[/yellow]"
+                )
+
+                try:
+                    encrypt_directory(root_path, password)
+                    console.print(f"\n[blod green] Project {project_name} cree et securiser avec succes! [/bold green]")
+                    console.print(f"cd {project_name} puis arcgen unlock {project_name} pour le dechiffrer")
+                except Exception:
+                    console.print(f"[red] Echec de chiffremment project: {project_name} genere mais pas chiffrer")
+            else:
+                console.print(f"\n[bold green]✅ Projet {project_name} créé avec succès ![/bold green]")
+                console.print(f"👉 cd {project_name}")
         else:
             console.print("\n[bold red]💥 La génération a échoué.[/bold red]")
 
@@ -181,6 +200,34 @@ def create_react():
     Utilise la fonction 'create' avec framework=react pré-sélectionné.
     """
     create(project_name=None, framework="react")
+
+
+@app.command()
+def unlock(
+    project_path: str = typer.Argument(..., help="Chemin vers le dossier à déverrouiller"),
+):
+    """
+    Déverrouille (déchiffre) un projet précédemment chiffré avec --secure.
+    """
+    from archgen.secure import decrypt_directory
+
+    path = Path(project_path).resolve()
+    if not path.exists():
+        console.print(f"[red]❌ Le chemin '{path}' n'existe pas.[/red]")
+        raise typer.Exit(1)
+
+    password = Prompt.ask("Mot de passe du projet", password=True)
+    if not password:
+        console.print("[red]❌ Mot de passe requis.[/red]")
+        raise typer.Exit(1)
+
+    console.print("[yellow]🔓 Déchiffrement du dossier en cours...[/yellow]")
+    try:
+        decrypt_directory(path, password)
+        console.print(f"\n[bold green]✅ Dossier {path} déchiffré avec succès ![/bold green]")
+    except Exception as e:
+        console.print(f"[red]❌ Échec du déchiffrement : {e}[/red]")
+        raise typer.Exit(1)
 
 
 if __name__ == "__main__":
