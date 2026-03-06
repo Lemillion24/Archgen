@@ -1,6 +1,7 @@
 import yaml
 from pathlib import Path
 from jinja2 import Environment, FileSystemLoader, TemplateNotFound
+
 import sys
 
 def generate_project(project_name: str, project_type: str, language: str, framework: str, architecture: str):

@@ -1,4 +1,5 @@
 from pathlib import Path
+import questionary
 import typer
 from rich.console import Console
 from rich.prompt import Prompt, Confirm
@@ -77,7 +78,6 @@ def main():
 def create(
     # 1. ARGUMENT : Le nom du projet (positionnel, optionnel)
     project_name: str = typer.Argument(None, help="Le nom du dossier à créer"),
-    
     # 2. OPTION : Le framework (ex: --framework react ou -f react)
     framework: str = typer.Option(None, "--framework", "-f", help="Framework (react, django, laravel...)"),
     # 3.OPTION : verouillage (ex: --secure ou -s)
@@ -85,7 +85,6 @@ def create(
 ):
     """
     Lance l'assistant pour configurer un nouveau projet.
-    
     """
     print_logo()
     
@@ -98,51 +97,73 @@ def create(
     # 1. Nom du projet
     # Prompt.ask pose une question et attend une réponse
     if not project_name:
-        project_name = Prompt.ask(
-            "Quel est le [bold green]nom de ton projet[/bold green] ?"
-        )
+        project_name = questionary.text(
+            "Quel est le nom de ton projet ?",
+            validate=lambda text:True if len(text)>0 else "Entre un nom Valide"
+        ).ask()
+
+        if project_name is None:
+            console.print("[red]Annulation[/red]")
+            raise typer.Exit()
     else:
         console.print(f"📂 Nom du projet : [bold green]{project_name}[/bold green]")
 
     # 2. Type de projet
     # L'argument 'choices' force l'utilisateur à choisir dans la liste.
-    # S'il tape autre chose, Rich redemande automatiquement !
-    project_type = Prompt.ask(
+    # faire une selection
+    project_type = questionary.select(
         "Quel [bold green]type de projet[/bold green] veux-tu créer ?",
         choices=PROJECT_TYPES,
         default="api",  # Valeur par défaut si on appuie sur Entrée
-    )
+    ).ask()
+    if not project_type: raise typer.Exit()
 
     # 3. Langage
-    language = Prompt.ask(
+    language = questionary.select(
         f"Quel [bold green]langage[/bold green] utiliser pour ce projet {project_type} ?",
         choices=LANGUAGES,
         default="python",
-    )
+    ).ask()
+    if not language: raise typer.Exit()
     
-    valid_architectures = COMPATIBILITY.get(project_type, ARCHITECTURES)
+    #valid_architectures = COMPATIBILITY.get(project_type, ARCHITECTURES)
     valid_frameworks = FRAMEWORKS.get(language, ["none"])
     
     # 4. Framework
     if framework:
-        if framework == "react":
-            language = "javascript"
-            valid_frameworks = FRAMEWORKS.get(language, ["none"])
-        elif framework not in FRAMEWORKS.get(language, ['none']):
-           console.print(f"[yellow]⚠️ Attention: {framework} n'est pas standard pour {language}, mais on continue.[/yellow]")
+        if framework not in FRAMEWORKS.get(language, ["none"]):
+             console.print(f"[yellow]⚠️ Attention: {framework} n'est pas standard pour {language}.[/yellow]")
         console.print(f"⚡ Framework : [bold green]{framework}[/bold green]")
     else:
-        framework = Prompt.ask(
-            f"Quel [bold green]framework[/bold green] utiliser ?",
-            choices=valid_frameworks,
+        available_frameworks = FRAMEWORKS.get(language, ["none"])
+        framework = questionary.select(
+            "Quel framework veux-tu utiliser ?",
+            choices=available_frameworks,
             default="none"
-            )
+        ).ask()
+        if not framework: raise typer.Exit()
+
+
     # 5. Architecture
-    architecture = Prompt.ask(
-        "Quelle [bold green]architecture[/bold green] souhaites-tu implémenter ?",
+    valid_architectures = COMPATIBILITY.get(project_type, ARCHITECTURES)
+    architecture = questionary.select(
+        "Quelle architecture appliquer ?",
         choices=valid_architectures,
-        default=valid_architectures[0],
-    )
+        default="clean"
+    ).ask()
+    if not architecture: raise typer.Exit()
+
+    install_deps = questionary.confirm(
+        "Veux-tu installer les dépendances automatiquement ?",
+        default=True
+    ).ask()
+    if install_deps is None: raise typer.Exit()
+
+    init_git_repo = questionary.confirm(
+        "Veux-tu initialiser un dépôt Git ?",
+        default=True
+    ).ask()
+    if init_git_repo is None: raise typer.Exit()
 
     # --- 3. RÉSUMÉ ET CONFIRMATION ---
     console.print("\n[bold yellow]📋 Vérification de la configuration :[/bold yellow]")
