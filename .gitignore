@@ -8,3 +8,5 @@ RECOMMANDATIONS_IMMEDIATES.md
 RESUME_FINAL.md
 START_HERE.md
 SUGGESTIONS_AMELIORATIONS.mdN
+./archgen/__pycache__/
+./archgen/TUI/__pycache__/

@@ -1,4 +1,5 @@
 import yaml
+import subprocess
 from pathlib import Path
 from jinja2 import Environment, FileSystemLoader, TemplateNotFound
 
@@ -178,3 +179,39 @@ def _render_file(file_path: Path, template_name: str, jinja_env, context, templa
     except Exception as e:
         print(f"❌ Erreur lors du rendu de {template_name}: {e}")
         raise
+
+
+
+def install_dependencies(project_path: Path):
+    """
+    Parcourt le projet et installe les dépendances là où des fichiers
+    de configuration (package.json, requirements.txt) sont trouvés.
+    """
+    # Liste des marqueurs de dépendances et leurs commandes
+    markers = {
+        "package.json": ["npm", "install"],
+        "requirements.txt": ["pip", "install", "-r", "requirements.txt"],
+        "go.mod": ["go", "mod", "tidy"],
+        "composer.json": ["composer", "install"]
+    }
+
+    found_any = False
+
+    # On cherche récursivement dans le projet (utile pour le mode Fullstack)
+    for marker, command in markers.items():
+        # rglob cherche dans tous les sous-dossiers
+        for config_file in project_path.rglob(marker):
+            found_any = True
+            working_dir = config_file.parent
+            print(f"📦 Installation détectée dans : [bold cyan]{working_dir.name}/[/bold cyan]")
+            
+            try:
+                # shell=True est souvent nécessaire sur Windows pour npm
+                subprocess.run(command, cwd=working_dir, check=True, shell=True)
+            except Exception as e:
+                print(f"⚠️ Échec de l'installation dans {working_dir}: {e}")
+
+    if not found_any:
+        print("ℹ️ Aucun fichier de dépendances détecté. On passe l'étape.")
+    
+    return True

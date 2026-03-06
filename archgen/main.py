@@ -7,6 +7,7 @@ from rich.table import Table
 from pyfiglet import Figlet
 from archgen.generator import generate_project
 from archgen.secure import encrypt_directory
+from archgen.TUI.tui import ArchigenTUI 
 
 # Initialisation
 app = typer.Typer()
@@ -55,6 +56,14 @@ COMPATIBILITY = {
     "platform": ["microservices", "soa"]
 }
 
+
+# Dans main.py, avant d'appeler generate_project
+
+def validate_selection(language, framework):
+    allowed = FRAMEWORKS.get(language, ["none"])
+    if framework not in allowed:
+        console.print(f"[bold red]Erreur:[/bold red] Le framework '{framework}' n'est pas disponible pour le langage '{language}'.")
+        raise typer.Exit()
 
 
 def print_logo():
@@ -128,6 +137,7 @@ def create(
     
     #valid_architectures = COMPATIBILITY.get(project_type, ARCHITECTURES)
     valid_frameworks = FRAMEWORKS.get(language, ["none"])
+    # Utilisation dans la commande create :
     
     # 4. Framework
     if framework:
@@ -165,6 +175,7 @@ def create(
     ).ask()
     if init_git_repo is None: raise typer.Exit()
 
+    validate_selection(language, framework)
     # --- 3. RÉSUMÉ ET CONFIRMATION ---
     console.print("\n[bold yellow]📋 Vérification de la configuration :[/bold yellow]")
 
@@ -249,7 +260,18 @@ def unlock(
     except Exception as e:
         console.print(f"[red]❌ Échec du déchiffrement : {e}[/red]")
         raise typer.Exit(1)
+    
+@app.command()
+def ui():
+    """
+    Lance l'interface graphique (TUI) d'Archigen.
+    """
+    app_tui = ArchigenTUI()
+    app_tui.run()
 
 
 if __name__ == "__main__":
     app()
+# N'oublie pas d'importer ton nouveau fichier !
+ # Ajuste l'import selon l'emplacement exact de ton fichier
+
