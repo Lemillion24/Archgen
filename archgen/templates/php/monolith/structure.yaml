@@ -1,0 +1,15 @@
+# Structure pour PHP Monolith
+root:
+  src:
+    Controllers: null
+    Models: null
+    Views: null
+    index.php: "index.php.jinja"
+
+  public:
+    index.php: "public/index.php.jinja"
+
+  tests: null
+  composer.json: "composer.json.jinja"
+  README.md: "README.md.jinja"
+  .gitignore: "gitignore.jinja"

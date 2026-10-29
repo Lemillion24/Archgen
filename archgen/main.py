@@ -25,7 +25,7 @@ FRAMEWORKS = {
     "python": ["django", "flask", "fastapi", "none"],
     "javascript": ["react", "vue", "angular", "express", "none"],
     "typescript": ["react", "angular", "nest", "none"],
-    "php": ["laravel", "symfony", "none"],
+    "php": ["laravel", "symfony", "monolith", "none"],
     "java": ["spring", "jakarta", "none"],
     "csharp": ["dotnet-core", "none"],
     "go": ["gin", "fiber", "none"]

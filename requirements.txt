@@ -1,0 +1,4 @@
+typer[all]
+rich
+jinja2
+pyyaml
